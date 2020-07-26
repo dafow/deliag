@@ -7,6 +7,7 @@ services:
   nginx:
     image: nginx:stable
     container_name: nginx
+    restart: unless-stopped
     ports:
       - "8080:80"
     volumes:
@@ -22,7 +23,6 @@ services:
     image: mysql:8.0.21
     container_name: mysql
     restart: unless-stopped
-    tty: true
     ports:
       - "3306:3306"
     environment:
@@ -38,8 +38,9 @@ services:
   php:
     build:
       context: .
-      dockerfile: php.dockerfile
+      dockerfile: php/Dockerfile
     container_name: php
+    restart: unless-stopped
     volumes:
       - ./src:/var/www/html
     ports:
@@ -61,7 +62,7 @@ services:
   artisan:
     build:
       context: .
-      dockerfile: php.dockerfile
+      dockerfile: php/Dockerfile
     container_name: artisan
     volumes:
       - ./src:/var/www/html
